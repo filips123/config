@@ -18,11 +18,11 @@ class Xml implements ParserInterface
 {
     /**
      * {@inheritDoc}
-     * Parses an XML string as an array
+     * Decodes an XML string as an array
      *
      * @throws ParseException If there is an error parsing the XML string
      */
-    public function parse($config, $filename = null)
+    public function decode($config, $filename = null)
     {
         libxml_use_internal_errors(true);
 

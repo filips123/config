@@ -42,31 +42,31 @@ class YamlTest extends TestCase
     }
 
     /**
-     * @covers                   Noodlehaus\Parser\Yaml::parse()
+     * @covers                   Noodlehaus\Parser\Yaml::decode()
      * @expectedException        Noodlehaus\Exception\ParseException
      * @expectedExceptionMessage Error parsing YAML string
      */
     public function testLoadInvalidYaml()
     {
-        $this->yaml->parse(file_get_contents(__DIR__ . '/../mocks/fail/error.yaml'));
+        $this->yaml->decode(file_get_contents(__DIR__ . '/../mocks/fail/error.yaml'));
     }
 
     /**
-     * @covers Noodlehaus\Parser\Yaml::parse()
+     * @covers Noodlehaus\Parser\Yaml::decode()
      */
     public function testLoadYaml()
     {
-        $actual = $this->yaml->parse(file_get_contents(__DIR__ . '/../mocks/pass/config.yaml'));
+        $actual = $this->yaml->decode(file_get_contents(__DIR__ . '/../mocks/pass/config.yaml'));
         $this->assertEquals('localhost', $actual['host']);
         $this->assertEquals('80', $actual['port']);
     }
 
     /**
-     * @covers Noodlehaus\Parser\Yaml::parse()
+     * @covers Noodlehaus\Parser\Yaml::decode()
      */
     public function testLoadYml()
     {
-        $actual = $this->yaml->parse(file_get_contents(__DIR__ . '/../mocks/pass/config.yml'));
+        $actual = $this->yaml->decode(file_get_contents(__DIR__ . '/../mocks/pass/config.yml'));
         $this->assertEquals('localhost', $actual['host']);
         $this->assertEquals('80', $actual['port']);
     }

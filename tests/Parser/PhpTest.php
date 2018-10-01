@@ -42,41 +42,41 @@ class PhpTest extends TestCase
     }
 
     /**
-     * @covers                   Noodlehaus\Parser\Php::parse()
+     * @covers                   Noodlehaus\Parser\Php::decode()
      * @expectedException        Noodlehaus\Exception\UnsupportedFormatException
      * @expectedExceptionMessage PHP string does not return an array
      */
     public function testLoadInvalidPhp()
     {
-        $this->php->parse(file_get_contents(__DIR__ . '/../mocks/fail/error.php'));
+        $this->php->decode(file_get_contents(__DIR__ . '/../mocks/fail/error.php'));
     }
 
     /**
-     * @covers                   Noodlehaus\Parser\Php::parse()
+     * @covers                   Noodlehaus\Parser\Php::decode()
      * @expectedException        Noodlehaus\Exception\ParseException
      * @expectedExceptionMessage PHP string threw an exception
      */
     public function testLoadExceptionalPhp()
     {
-        $this->php->parse(file_get_contents(__DIR__ . '/../mocks/fail/error-exception.php'));
+        $this->php->decode(file_get_contents(__DIR__ . '/../mocks/fail/error-exception.php'));
     }
 
     /**
-     * @covers Noodlehaus\Parser\Php::parse()
+     * @covers Noodlehaus\Parser\Php::decode()
      */
     public function testLoadPhpArray()
     {
-        $actual = $this->php->parse(file_get_contents(__DIR__ . '/../mocks/pass/config.php'));
+        $actual = $this->php->decode(file_get_contents(__DIR__ . '/../mocks/pass/config.php'));
         $this->assertEquals('localhost', $actual['host']);
         $this->assertEquals('80', $actual['port']);
     }
 
     /**
-     * @covers Noodlehaus\Parser\Php::parse()
+     * @covers Noodlehaus\Parser\Php::decode()
      */
     public function testLoadPhpCallable()
     {
-        $actual = $this->php->parse(file_get_contents(__DIR__ . '/../mocks/pass/config-exec.php'));
+        $actual = $this->php->decode(file_get_contents(__DIR__ . '/../mocks/pass/config-exec.php'));
         $this->assertEquals('localhost', $actual['host']);
         $this->assertEquals('80', $actual['port']);
     }

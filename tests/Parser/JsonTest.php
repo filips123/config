@@ -42,21 +42,21 @@ class JsonTest extends TestCase
     }
 
     /**
-     * @covers                   Noodlehaus\Parser\Json::parse()
+     * @covers                   Noodlehaus\Parser\Json::decode()
      * @expectedException        Noodlehaus\Exception\ParseException
      * @expectedExceptionMessage Syntax error
      */
     public function testLoadInvalidJson()
     {
-        $this->json->parse(file_get_contents(__DIR__ . '/../mocks/fail/error.json'));
+        $this->json->decode(file_get_contents(__DIR__ . '/../mocks/fail/error.json'));
     }
 
     /**
-     * @covers Noodlehaus\Parser\Json::parse()
+     * @covers Noodlehaus\Parser\Json::decode()
      */
     public function testLoadJson()
     {
-        $actual = $this->json->parse(file_get_contents(__DIR__ . '/../mocks/pass/config.json'));
+        $actual = $this->json->decode(file_get_contents(__DIR__ . '/../mocks/pass/config.json'));
         $this->assertEquals('localhost', $actual['host']);
         $this->assertEquals('80', $actual['port']);
     }

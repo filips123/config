@@ -20,11 +20,11 @@ class Ini implements ParserInterface
 
     /**
      * {@inheritDoc}
-     * Parses an INI string as an array
+     * Decodes an INI string as an array
      *
      * @throws ParseException If there is an error parsing the INI string
      */
-    public function parse($config, $filename = null)
+    public function decode($config, $filename = null)
     {
         $data = @parse_ini_string($config, true);
 

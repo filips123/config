@@ -20,12 +20,12 @@ class Php implements ParserInterface
 {
     /**
      * {@inheritDoc}
-     * Loads a PHP string and gets its' contents as an array
+     * Decodes a PHP string and gets its' contents as an array
      *
      * @throws ParseException             If the PHP string throws an exception
      * @throws UnsupportedFormatException If the PHP string does not return an array
      */
-    public function parse($config, $filename = null)
+    public function decode($config, $filename = null)
     {
         // Strip PHP start and end tags
         $config = str_replace('<?php', '', $config);

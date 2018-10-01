@@ -20,11 +20,11 @@ class Yaml implements ParserInterface
 {
     /**
      * {@inheritDoc}
-     * Loads a YAML/YML string as an array
+     * Decodes a YAML/YML string as an array
      *
      * @throws ParseException If If there is an error parsing the YAML string
      */
-    public function parse($config, $filename = null)
+    public function decode($config, $filename = null)
     {
         try {
             $data = YamlParser::parse($config, YamlParser::PARSE_CONSTANT);

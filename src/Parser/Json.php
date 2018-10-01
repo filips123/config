@@ -18,11 +18,11 @@ class Json implements ParserInterface
 {
     /**
      * {@inheritDoc}
-     * Loads a JSON string as an array
+     * Decodeds a JSON string as an array
      *
      * @throws ParseException If there is an error parsing the JSON string
      */
-    public function parse($config, $filename = null)
+    public function decode($config, $filename = null)
     {
         $data = json_decode($config, true);
 

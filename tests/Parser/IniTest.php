@@ -42,7 +42,7 @@ class IniTest extends TestCase
     }
 
     /**
-     * @covers                   Noodlehaus\Parser\Ini::parse()
+     * @covers                   Noodlehaus\Parser\Ini::decode()
      * @expectedException        Noodlehaus\Exception\ParseException
      * @expectedExceptionMessage No parsable content in string.
      * Tests the case where an INI string contains no parsable data at all, resulting in parse_ini_string
@@ -50,36 +50,36 @@ class IniTest extends TestCase
      */
     public function testLoadInvalidIniGBH()
     {
-        $this->ini->parse(file_get_contents(__DIR__ . '/../mocks/fail/error2.ini'));
+        $this->ini->decode(file_get_contents(__DIR__ . '/../mocks/fail/error2.ini'));
     }
 
     /**
-     * @covers                   Noodlehaus\Parser\Ini::parse()
+     * @covers                   Noodlehaus\Parser\Ini::decode()
      * @expectedException        Noodlehaus\Exception\ParseException
      * @expectedExceptionMessage syntax error, unexpected $end, expecting ']'
      */
     public function testLoadInvalidIni()
     {
-        $this->ini->parse(file_get_contents(__DIR__ . '/../mocks/fail/error.ini'));
+        $this->ini->decode(file_get_contents(__DIR__ . '/../mocks/fail/error.ini'));
     }
 
     /**
-     * @covers Noodlehaus\Parser\Ini::parse()
+     * @covers Noodlehaus\Parser\Ini::decode()
      */
     public function testLoadIni()
     {
-        $actual = $this->ini->parse(file_get_contents(__DIR__ . '/../mocks/pass/config.ini'));
+        $actual = $this->ini->decode(file_get_contents(__DIR__ . '/../mocks/pass/config.ini'));
         $this->assertEquals('localhost', $actual['host']);
         $this->assertEquals('80', $actual['port']);
     }
 
     /**
-     * @covers Noodlehaus\Parser\Ini::parse()
+     * @covers Noodlehaus\Parser\Ini::decode()
      * @covers Noodlehaus\Parser\Ini::expandDottedKey()
      */
     public function testLoadIniWithDottedName()
     {
-        $actual = $this->ini->parse(file_get_contents(__DIR__ . '/../mocks/pass/config2.ini'));
+        $actual = $this->ini->decode(file_get_contents(__DIR__ . '/../mocks/pass/config2.ini'));
         $expected = ['host1', 'host2', 'host3'];
 
         $this->assertEquals($expected, $actual['network']['group']['servers']);
