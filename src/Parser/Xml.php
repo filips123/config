@@ -3,6 +3,7 @@
 namespace Noodlehaus\Parser;
 
 use Noodlehaus\Exception\ParseException;
+use SimpleXMLElement;
 
 /**
  * XML parser
@@ -44,6 +45,42 @@ class Xml implements ParserInterface
         $data = json_decode(json_encode($data), true);
 
         return $data;
+    }
+
+    /**
+     * {@inheritDoc}
+     * Encodes a configuration as an XML string
+     */
+    public function encode(array $config)
+    {
+        return $this->toXML($config);
+    }
+
+    /**
+     * Converts array to XML string
+     * @param array             $arr       Array to be converted
+     * @param string            $rootElement I specified will be taken as root element
+     * @param SimpleXMLElement  $xml         If specified content will be appended
+     *
+     * @return string Converted array as XML
+     *
+     * @see https://www.kerstner.at/2011/12/php-array-to-xml-conversion/
+     */
+    protected function toXML(array $arr, $rootElement = '<config/>', $xml = null)
+    {
+        if ($xml === null) {
+            $xml = new SimpleXMLElement($rootElement);
+        }
+
+        foreach ($arr as $k => $v) {
+            if (is_array($v)) {
+                $this->toXML($v, $k, $xml->addChild($k));
+            } else {
+                $xml->addChild($k, $v);
+            }
+        }
+
+        return $xml->asXML();
     }
 
     /**

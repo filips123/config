@@ -42,6 +42,15 @@ class Yaml implements ParserInterface
 
     /**
      * {@inheritDoc}
+     * Encodes a configuration as an YAML/YML string
+     */
+    public function encode(array $config)
+    {
+        return YamlParser::dump($config);
+    }
+
+    /**
+     * {@inheritDoc}
      */
     public static function getSupportedExtensions()
     {

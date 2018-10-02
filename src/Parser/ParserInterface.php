@@ -25,6 +25,15 @@ interface ParserInterface
     public function decode($config, $filename = null);
 
     /**
+     * Encodes a configuration from `$config` and gets its contents as a string
+     *
+     * @param  array $config
+     *
+     * @return string
+     */
+    public function encode(array $config);
+
+    /**
      * Returns an array of allowed file extensions for this parser
      *
      * @return array

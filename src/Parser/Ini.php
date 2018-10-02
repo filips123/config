@@ -3,6 +3,7 @@
 namespace Noodlehaus\Parser;
 
 use Noodlehaus\Exception\ParseException;
+use Noodlehaus\Exception\UnsupportedFormatException;
 
 /**
  * INI parser
@@ -16,8 +17,6 @@ use Noodlehaus\Exception\ParseException;
  */
 class Ini implements ParserInterface
 {
-
-
     /**
      * {@inheritDoc}
      * Decodes an INI string as an array
@@ -74,6 +73,43 @@ class Ini implements ParserInterface
             }
         }
         return $data;
+    }
+
+    /**
+     * {@inheritDoc}
+     * Encodes a configuration as an INI string
+     */
+    public function encode(array $config)
+    {
+        return $this->toINI($config);
+    }
+
+    /**
+     * Converts array to INI string
+     * @param array $arr    Array to be converted
+     * @param array $parent Parent array
+     *
+     * @return string Converted array as INI
+     *
+     * @see https://stackoverflow.com/a/17317168/6523409/
+     */
+    protected function toINI(array $arr, array $parent = [])
+    {
+        $converted = '';
+    
+        foreach ($arr as $k => $v) {
+            if (is_array($v)) {
+                $sec = array_merge((array) $parent, (array) $k);
+
+                $converted .= '[' . join('.', $sec) . ']' . PHP_EOL;
+                $converted .= $this->toINI($v, $sec);
+
+            } else {
+                $converted .= $k . '=' . $v . PHP_EOL;
+            }
+        }
+
+        return $converted;
     }
 
     /**

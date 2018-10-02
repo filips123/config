@@ -45,6 +45,15 @@ class Json implements ParserInterface
 
     /**
      * {@inheritDoc}
+     * Encodes a configuration as an JSON string
+     */
+    public function encode(array $config)
+    {
+        return json_encode($config);
+    }
+
+    /**
+     * {@inheritDoc}
      */
     public static function getSupportedExtensions()
     {

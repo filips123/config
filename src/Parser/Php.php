@@ -59,6 +59,15 @@ class Php implements ParserInterface
 
     /**
      * {@inheritDoc}
+     * Encodes a configuration as an INI string
+     */
+    public function encode(array $config)
+    {
+        throw new UnsupportedFormatException('PHP encoder is currently not supported');
+    }
+
+    /**
+     * {@inheritDoc}
      */
     public static function getSupportedExtensions()
     {

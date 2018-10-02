@@ -42,7 +42,7 @@ class Config extends AbstractConfig
      *
      * @return Config
      */
-    public static function load($values, $parser = null, $string = false)
+    public static function load($values = null, $parser = null, $string = false)
     {
         return new static($values, $parser, $string);
     }
@@ -54,15 +54,61 @@ class Config extends AbstractConfig
      * @param  ParserInterface $parser Configuration parser
      * @param  bool            $string Enable loading from string
      */
-    public function __construct($values, ParserInterface $parser = null, $string = false)
+    public function __construct($values = null, ParserInterface $parser = null, $string = false)
     {
-        if ($string === true) {
-            $this->loadFromString($values, $parser);
+        if ($values !== null) {
+            if ($string === true) {
+                $this->loadFromString($values, $parser);
+            } else {
+                $this->loadFromFile($values, $parser);
+            }
         } else {
-            $this->loadFromFile($values, $parser);
+            $this->data = [];
         }
 
         parent::__construct($this->data);
+    }
+
+    /**
+     * Returns configuration as encoded string.
+     *
+     * @param ParserInterface $parser Configuration parser
+     *
+     * @return string Encoded configuration.
+     */
+    public function toString(ParserInterface $parser)
+    {
+        return $parser->encode($this->data);
+    }
+
+    /**
+     * Writes configuration to a file.
+     *
+     * @param string          $filename Output filename
+     * @param ParserInterface $parser   Configuration parser
+     */
+    public function toFile($filename, ParserInterface $parser = null)
+    {
+        if ($parser === null) {
+            // Get file information
+            $info      = pathinfo($filename);
+            $parts     = explode('.', $info['basename']);
+            $extension = array_pop($parts);
+
+            // Skip the `dist` extension
+            if ($extension === 'dist') {
+                $extension = array_pop($parts);
+            }
+
+            // Get file parser
+            $parser = $this->getParser($extension);
+        }
+
+        // Encode configuration
+        $data = $this->toString($parser);
+
+        // Write to file
+        file_put_contents($filename, $data);
     }
 
     /**
