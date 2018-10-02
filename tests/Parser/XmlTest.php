@@ -60,4 +60,28 @@ class XmlTest extends TestCase
         $this->assertEquals('localhost', $actual['host']);
         $this->assertEquals('80', $actual['port']);
     }
+
+    /**
+     * @covers Noodlehaus\Parser\Xml::encode()
+     * @covers Noodlehaus\Parser\Xml::toXML()
+     */
+    function testEncodeJson()
+    {
+        $actual = $this->xml->encode([
+            'database' => [
+                'host' => 'localhost',
+                'port' => '3306',
+            ],
+            'app' => [
+                'name' => 'config',
+                'description' => 'Config Reader and Writer',
+            ],
+        ]);
+        $expected = <<<EOD
+<?xml version="1.0"?>
+<config><database><host>localhost</host><port>3306</port></database><app><name>config</name><description>Config Reader and Writer</description></app></config>
+
+EOD;
+        $this->assertEquals($expected, $actual);
+    }
 }

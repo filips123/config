@@ -60,4 +60,24 @@ class JsonTest extends TestCase
         $this->assertEquals('localhost', $actual['host']);
         $this->assertEquals('80', $actual['port']);
     }
+
+    /**
+     * @covers Noodlehaus\Parser\Json::encode()
+     */
+    function testEncodeJson()
+    {
+        $actual = $this->json->encode([
+            'database' => [
+                'host' => 'localhost',
+                'port' => '3306',
+            ],
+            'app' => [
+                'name' => 'config',
+                'description' => 'Config Reader and Writer',
+            ],
+        ]);
+        $expected = '{"database":{"host":"localhost","port":"3306"},"app":{"name":"config","description":"Config Reader and Writer"}}';
+
+        $this->assertEquals($expected, $actual);
+    }
 }

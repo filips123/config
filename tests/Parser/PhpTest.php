@@ -80,4 +80,23 @@ class PhpTest extends TestCase
         $this->assertEquals('localhost', $actual['host']);
         $this->assertEquals('80', $actual['port']);
     }
+
+    /**
+     * @covers                   Noodlehaus\Parser\Php::encode()
+     * @expectedException        Noodlehaus\Exception\UnsupportedFormatException
+     * @expectedExceptionMessage PHP encoder is currently not supported
+     */
+    function testEncodePhp()
+    {
+        $actual = $this->php->encode([
+            'database' => [
+                'host' => 'localhost',
+                'port' => '3306',
+            ],
+            'app' => [
+                'name' => 'config',
+                'description' => 'Config Reader and Writer',
+            ],
+        ]);
+    }
 }

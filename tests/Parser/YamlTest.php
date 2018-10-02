@@ -70,4 +70,31 @@ class YamlTest extends TestCase
         $this->assertEquals('localhost', $actual['host']);
         $this->assertEquals('80', $actual['port']);
     }
+
+    /**
+     * @covers Noodlehaus\Parser\Yaml::encode()
+     */
+    function testEncodeYaml()
+    {
+        $actual = $this->yaml->encode([
+            'database' => [
+                'host' => 'localhost',
+                'port' => '3306',
+            ],
+            'app' => [
+                'name' => 'config',
+                'description' => 'Config Reader and Writer',
+            ],
+        ]);
+        $expected = <<<EOD
+database:
+    host: localhost
+    port: '3306'
+app:
+    name: config
+    description: 'Config Reader and Writer'
+
+EOD;
+        $this->assertEquals($expected, $actual);
+    }
 }

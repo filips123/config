@@ -254,6 +254,19 @@ class ConfigTest extends TestCase
     }
 
     /**
+     * @covers Noodlehaus\Config::__construct()
+     */
+    function testConstructWithoutData()
+    {
+        $config = new Config;
+
+        $expected = [];
+        $actual = $config->all();
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
      * @covers       Noodlehaus\Config::__construct()
      * @covers       Noodlehaus\Config::get()
      * @dataProvider specialConfigProvider()
@@ -261,6 +274,49 @@ class ConfigTest extends TestCase
     public function testGetReturnsArrayMergedArray($config)
     {
         $this->assertCount(4, $config->get('servers'));
+    }
+
+    /**
+     * @covers Noodlehaus\Config::__construct()
+     * @covers Noodlehaus\Config::toString()
+     */
+    public function testConfigToString()
+    {
+        $config = new Config;
+
+        $config['host'] = 'localhost';
+        $config['port'] = '8080';
+
+        $expected = '{"host":"localhost","port":"8080"}';
+        $actual = $config->toString(new Parser\Json);
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @covers Noodlehaus\Config::__construct()
+     * @covers Noodlehaus\Config::toString()
+     * @covers Noodlehaus\Config::toFile()
+     */
+    public function testConfigToFile()
+    {
+        $config = new Config;
+
+        $config['user'] = 'admin';
+        $config['pass'] = 'secret';
+
+        $filename = sys_get_temp_dir() . '/' . uniqid(rand()) . '.yaml.dist';
+
+        $config->toFile($filename);
+
+        $expected = <<<EOD
+user: admin
+pass: secret
+
+EOD;
+        $actual = file_get_contents($filename);        
+
+        $this->assertEquals($expected, $actual);
     }
 
     /**

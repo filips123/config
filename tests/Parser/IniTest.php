@@ -87,4 +87,33 @@ class IniTest extends TestCase
         $this->assertEquals('localhost', $actual['network']['http']['host']);
         $this->assertEquals('80', $actual['network']['http']['port']);
     }
+
+    /**
+     * @covers Noodlehaus\Parser\Ini::encode()
+     * @covers Noodlehaus\Parser\Ini::toINI()
+     */
+    function testEncodeIni()
+    {
+        $actual = $this->ini->encode([
+            'database' => [
+                'host' => 'localhost',
+                'port' => '3306',
+            ],
+            'app' => [
+                'name' => 'config',
+                'description' => 'Config Reader and Writer',
+            ],
+        ]);
+        $expected = <<<EOD
+[database]
+host=localhost
+port=3306
+[app]
+name=config
+description=Config Reader and Writer
+
+EOD;
+
+        $this->assertEquals($expected, $actual);
+    }
 }
