@@ -151,9 +151,32 @@ $data = $conf->all();
 ### Setting values
 
 Although Config supports setting values via `set()` or, via the
-array syntax, **any changes made this way are NOT reflected back to the
-source files**. By design, if you need to make changes to your
-configuration files, you have to do it manually.
+array syntax.
+
+You can convert it back to string of file. You could currently
+only save it to one file and PHP is not supported.
+
+```php
+$conf = Config;
+
+$conf[] = [
+    'database' => [
+        'host' => 'localhost',
+        'port' => '3306',
+    ],
+    'app' => [
+        'name' => 'config',
+        'description' => 'Config Reader and Writer',
+    ]
+];
+
+$result = $conf->toString(new Json);
+
+$conf->toFile('config.yml');
+```
+
+If you don't call `toString()` or `toFile()`, **any changes will
+NOT reflected back to the source files**.
 
 ```php
 $conf = Config::load('config.json');
